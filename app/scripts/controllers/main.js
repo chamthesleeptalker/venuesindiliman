@@ -14,7 +14,6 @@ venuesApp.controller('MainCtrl',['$scope','$http','$filter','leafletData' ,funct
   $scope.sortType     = 'Name'; // set the default sort type
   $scope.sortReverse  = false;  // set the default sort order
   $scope.searchVenue   = '';     // set the default search/filter term
-  $scope.filteredVenues ='';
 
  $scope.venues=[
   {"ID":0,"Name":"P & G Room","Bldg":"Melchor Hall","Capacity":100,"Available_Hours":"8am-9pm","Lights":"Yes","Lights_In":0,"Lights_Out":0,"Lights_Other":0,"Sounds":"Yes","Sounds_In":200,"Sounds_Out":300,"Sounds_Other":300,"LCD":"Yes","LCD_In":400,"LCD_Out":600,"LCD_Other":600,"Rates_In":"750/hr","Rates_Out":"1600/2hrs","Rates_Other":"1750/2hrs","Contact_Details":"(02) 981-8500 loc. 3104","coordinates":[121.06982678174973,14.656497538914948]},
@@ -34,6 +33,8 @@ venuesApp.controller('MainCtrl',['$scope','$http','$filter','leafletData' ,funct
   {"ID":14,"Name":"Malcolm Theater","Bldg":"Malcolm Hall","Capacity":220,"Available_Hours":"8am-9pm","Lights":"Yes","Lights_In":0,"Lights_Out":0,"Lights_Other":0,"Sounds":"Yes","Sounds_In":0,"Sounds_Out":0,"Sounds_Other":0,"LCD":"Yes","LCD_In":0,"LCD_Out":0,"LCD_Other":0,"Rates_In":"5240/3hrs","Rates_Out":"5240/3hrs","Rates_Other":"8440/3hrs","Contact_Details":"(02) 920-5514 loc. 214","coordinates":[121.07207715511323,14.656554627374453]},
   {"ID":15,"Name":"Sunken Garden","Bldg":"Open Area","Capacity":10000,"Available_Hours":"Upon Request","Lights":"No","Lights_In":0,"Lights_Out":0,"Lights_Other":0,"Sounds":"No","Sounds_In":0,"Sounds_Out":0,"Sounds_Other":0,"LCD":"No","LCD_In":0,"LCD_Out":0,"LCD_Other":0,"Rates_In":"1573/hr","Rates_Out":"1573/hr","Rates_Other":"6232/hr","Contact_Details":"(02) 981-8601 / (02) 981-8600","coordinates":[121.07228636741638,14.655070322592467]}
   ];
+
+  //$scope.filteredVenues =angular.copy($scope.venues);
 
 
   //Leaflet Specs
@@ -61,10 +62,27 @@ venuesApp.controller('MainCtrl',['$scope','$http','$filter','leafletData' ,funct
 
 $scope.geojson = {};
 
+$scope.changedValue = function() {
+   //console.log($scope.filteredVenues);
+}
 
-$scope.$watch('filteredVenues',function(){ 
-  console.log("change!");
-});
+$scope.$watch('filteredVenues', function (newvalue,oldvalue) { 
+
+
+console.log(($scope.filteredVenues))}
+
+
+
+,true);
+
+
+
+// $scope.dataCount = 4;
+
+// $scope.$watch('filteredVenues.length', function(newNames, oldNames) {
+//   $scope.dataCount = newNames.length;
+//   console.log($scope.dataCount);
+// });
 
 
 // $scope.events={

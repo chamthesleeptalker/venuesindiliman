@@ -60,29 +60,34 @@
   </select> -->
 
   <label>Building</label>
-    <select name="show-filter" ng-model="searchVenue.Bldg" placeholder="Building" 
-    ng-options="venue.Bldg as venue.Bldg for venue in venues | unique:'Bldg'">
-  </select>
+    <select id="bldg" name="show-filter" ng-model="searchVenue.Bldg" placeholder="Building" 
+    ng-options="venue.Bldg as venue.Bldg for venue in venues | unique:'Bldg'"
+    ng-change="changedValue()">
+  </select>{{ searchVenue.Bldg }}
 
   <label>Capacity</label>
-    <select name="show-filter" ng-model="searchVenue.Capacity" placeholder="Capacity" 
-    ng-options="venue.Capacity as venue.Capacity for venue in venues | unique:'Capacity'">
-  </select>
+    <select id="cap" name="show-filter" ng-model="searchVenue.Capacity" placeholder="Capacity" 
+    ng-options="venue.Capacity as venue.Capacity for venue in venues | unique:'Capacity'"
+    ng-change="changedValue()">
+  </select>{{ searchVenue.Capacity }}
 
   <label>Lights</label>
-    <select name="show-filter" ng-model="searchVenue.Lights" placeholder="Lights" 
-    ng-options="venue.Lights as venue.Lights for venue in venues | unique:'Lights'">
-  </select>
+    <select id="lights" name="show-filter" ng-model="searchVenue.Lights" placeholder="Lights" 
+    ng-options="venue.Lights as venue.Lights for venue in venues | unique:'Lights'"
+    ng-change="changedValue()">
+  </select>{{ searchVenue.Lights }}
 
   <label>LCD</label>
-    <select name="show-filter" ng-model="searchVenue.LCD" placeholder="LCD" 
-    ng-options="venue.LCD as venue.LCD for venue in venues | unique:'LCD'">
-  </select>
+    <select id="lcd" name="show-filter" ng-model="searchVenue.LCD" placeholder="LCD" 
+    ng-options="venue.LCD as venue.LCD for venue in venues | unique:'LCD'"
+    ng-change="changedValue()">
+  </select>{{ searchVenue.LCD }}
 
     <label>Sounds</label>
-    <select name="show-filter" ng-model="searchVenue.Sounds" placeholder="Sounds" 
-    ng-options="venue.Sounds as venue.Sounds for venue in venues | unique:'Sounds'">
-  </select>
+    <select id="sounds" name="show-filter" ng-model="searchVenue.Sounds" placeholder="Sounds" 
+    ng-options="venue.Sounds as venue.Sounds for venue in venues | unique:'Sounds'"
+    ng-change="changedValue()">
+  </select>{{ searchVenue.Sounds }}
 <br>
   <table class="table table-bordered table-striped">
     
@@ -170,8 +175,8 @@
     <tbody>
        
        <!-- <tr ng-repeat="venue in venues | orderBy:sortType:sortReverse | filter : searchVenue"> -->
-       <tr ng-repeat="venue in (filteredVenues = (venues | filter: searchVenue)) ">
-       
+       <tr ng-repeat="venue in ($parent.filteredVenues = (venues | filter: searchVenue :true)) ">
+        <td>{{ venue.ID }}</td>
         <td>{{ venue.Name }}</td>
         <td>{{ venue.Bldg }}</td>
         <td>{{ venue.Capacity }}</td>
@@ -184,7 +189,7 @@
         <td>{{ venue.Rates_Out }}</td>
         <td>{{ venue.Rates_Other }}</td>
       </tr>
-      <tr ng-hide="venues.length">No Results!</tr>
+<!--       <tr ng-hide="venues.length">No Results!</tr> -->
 
       
     </tbody>
