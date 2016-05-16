@@ -29,6 +29,7 @@ module.exports = function(config) {
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-route/angular-route.js',
+      'bower_components/angular-filter/dist/angular-filter.min.js',
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-aria/angular-aria.js',
       'bower_components/angular-messages/angular-messages.js',
@@ -57,7 +58,6 @@ module.exports = function(config) {
       'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
       'bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js',
       'bower_components/ui-leaflet/dist/ui-leaflet.js',
-      'bower_components/angular-filter/dist/angular-filter.min.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
