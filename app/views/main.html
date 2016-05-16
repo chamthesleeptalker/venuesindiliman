@@ -1,0 +1,31 @@
+<leaflet lf-center="center" width="100%" height="480px"  geojson="geojson" layers="layers" markers="markers" event-broadcast="events"></leaflet>
+
+
+<form role="form">
+        <input ng-model="search.building">
+        <select class="selectpicker" ng-model='search.Group' ng-options="city.Group as city.Group for city in football | unique:'Group' | orderBy:'Group'" fix>
+            <option value="" selected="selected">-- All Groups --</option>
+        </select>
+    </div>
+
+</form>
+
+<table ng-cloak class='table'>
+   <thead>
+      <tr class="foot">
+         <th><a href="">Name</a>
+         </th>
+         <th><a href="">Building</a>
+         </th>
+         <th><a href="">Capacity</a>
+         </th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="venue in geojson.data | orderBy:orderByField:reverse | filter:search">
+         <td class='country'>{{venue.properties.Name}}</td>
+         <td>{{venue.properties.Bldg}}</td>
+         <td>{{venue.properties.Capacity}}</td>
+      </tr>
+   </tbody>
+</table>

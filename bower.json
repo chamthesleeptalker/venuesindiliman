@@ -1,0 +1,51 @@
+{
+  "name": "venuesindiliman",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "^1.4.0",
+    "leaflet": "^0.7.7",
+    "Leaflet.awesome-markers": "^2.0.2",
+    "bootstrap": "^3.2.0",
+    "angular-cookies": "^1.5.5",
+    "angular-resource": "^1.5.5",
+    "angular-sanitize": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "angular-animate": "^1.4.0",
+    "angular-aria": "^1.4.0",
+    "angular-messages": "^1.4.0",
+    "angular-touch": "^1.4.0",
+    "angular-mocks": "^1.4.0",
+    "leaflet-plugins": "^1.6.1",
+    "angular-simple-logger": "^0.1.7",
+    "angular-leaflet-directive": "^0.10.0",
+    "ui-leaflet": "^1.0.0",
+    "font-awesome": "^4.6.3"
+  },
+  "devDependencies": {},
+  "appPath": "app",
+  "moduleName": "venuesindilimanApp",
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
+  },
+  "homepage": "https://github.com/chamthesleeptalker/venuesindiliman",
+  "authors": [
+    "cbmamador"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
