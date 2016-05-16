@@ -15,6 +15,7 @@ angular
     'ngResource',
     'ngSanitize',
     'ngRoute',
+    'angular.filter',
     'ui-leaflet',
     // 'leaflet-directive',
 	//initial modules

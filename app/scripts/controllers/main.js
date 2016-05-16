@@ -7,8 +7,15 @@
  * # MainCtrl
  * Controller of the venuesindilimanApp
  */
-angular.module('venuesindilimanApp')
-  .controller('MainCtrl',['$scope','$http','$filter','leafletData' ,function ($scope,$http,$filter,leafletData) {
+var venuesApp = angular.module('venuesindilimanApp');
+//controller
+venuesApp.controller('MainCtrl',['$scope','$http','$filter','leafletData' ,function ($scope,$http,$filter,leafletData) {
+	$scope.search = {
+	  'Name': '',
+	  'Bldg': ''
+	};
+    // Declare empty geojson object
+$scope.geojson = {};
   	angular.extend($scope,{
   		center:{
   			lat:14.65505475290859,
@@ -42,6 +49,10 @@ angular.module('venuesindilimanApp')
   	});
 
 	$http.get("json/venues.geojson").success(function(data,status){
+
+		$scope.data=data;
+		$scope.geojson.data=data;
+
 	  	var redMarker = L.AwesomeMarkers.icon({
 		    icon: 'heart',
 		    markerColor: 'red',
@@ -57,19 +68,32 @@ angular.module('venuesindilimanApp')
 	            "<br><b>Building:" + feature.properties.Bldg + "");
 	    }
 
-		$scope.venue_directory=data.features;
+		//$scope.venue_directory=data.features;
 
 		angular.extend($scope,{
 	  		geojson:{
-	  			data:$scope.venue_directory,
+	  			data:$scope.geojson.data,
 	  			onEachFeature: onEachFeature,
 	  			pointToLayer:pointToLayer
 	  		}
 	  	});
+
   	});
-
-
+  // // Start watching the search model
+  //       $scope.$watch('search', function (newVal, oldVal) {
+  //           // Watch gets fired on scope initialization and when empty so differentiate:
+  //           if (newVal !== oldVal && newVal !== '') {
+  //               // Has searchvalue, apply sourcedata, propertyname and searchstring to filter
+  //               // and assign return value of filter to geojson 
+  //               $scope.geojson.data = $filter('filter')($scope.data, 'NAME', newVal);
+  //           } else {
+  //               // Search has been initialized or emptied, assign sourcedata to geojsonobject
+  //               $scope.geojson.data = $scope.data;
+  //           }
+  //       });
   }]);
+
+
 
 
 
