@@ -396,6 +396,12 @@ module.exports = function (grunt) {
         },
         {
           expand: true,
+          cwd: 'bower_components/Leaflet.awesome-markers/dist',
+          src: 'images/*',
+          dest: '<%= yeoman.dist %>/styles'
+        },
+          {
+          expand: true,
           cwd: 'bower_components/leaflet/dist',
           src: 'images/*',
           dest: '<%= yeoman.dist %>/styles'
