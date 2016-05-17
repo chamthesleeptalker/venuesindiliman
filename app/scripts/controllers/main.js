@@ -40,8 +40,8 @@ venuesApp.controller('MainCtrl',['$scope' ,function ($scope) {
 
   //Leaflet Specs
   $scope.center={
-       lat:14.65505475490859,
-       lng:121.06891751289368,
+       lat:14.655371336263237,
+       lng:121.06858760118484,
        zoom:17
   };
 
