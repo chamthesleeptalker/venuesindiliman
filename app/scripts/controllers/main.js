@@ -120,7 +120,7 @@ $scope.$watch('filteredVenues', function () {
 
    }
 
-         console.log($scope);
+         //console.log($scope);
 
 },true);
 
