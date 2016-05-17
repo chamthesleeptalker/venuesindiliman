@@ -9,11 +9,13 @@
  */
 var venuesApp = angular.module('venuesindilimanApp');
 //controller
-venuesApp.controller('MainCtrl',['$scope','$http','$filter','leafletData' ,function ($scope,$http,$filter,leafletData) {
+venuesApp.controller('MainCtrl',['$scope' ,function ($scope) {
 
   $scope.sortType     = 'Name'; // set the default sort type
   $scope.sortReverse  = false;  // set the default sort order
-  $scope.searchVenue   = '';     // set the default search/filter term
+  $scope.searchVenue   = "";
+
+
 
  $scope.venues=[
   {"ID":0,"Name":"P & G Room","Bldg":"Melchor Hall","Capacity":100,"Available_Hours":"8am-9pm","Lights":"Yes","Lights_In":0,"Lights_Out":0,"Lights_Other":0,"Sounds":"Yes","Sounds_In":200,"Sounds_Out":300,"Sounds_Other":300,"LCD":"Yes","LCD_In":400,"LCD_Out":600,"LCD_Other":600,"Rates_In":"750/hr","Rates_Out":"1600/2hrs","Rates_Other":"1750/2hrs","Contact_Details":"(02) 981-8500 loc. 3104","coordinates":[121.06982678174973,14.656497538914948]},
@@ -34,19 +36,25 @@ venuesApp.controller('MainCtrl',['$scope','$http','$filter','leafletData' ,funct
   {"ID":15,"Name":"Sunken Garden","Bldg":"Open Area","Capacity":10000,"Available_Hours":"Upon Request","Lights":"No","Lights_In":0,"Lights_Out":0,"Lights_Other":0,"Sounds":"No","Sounds_In":0,"Sounds_Out":0,"Sounds_Other":0,"LCD":"No","LCD_In":0,"LCD_Out":0,"LCD_Other":0,"Rates_In":"1573/hr","Rates_Out":"1573/hr","Rates_Other":"6232/hr","Contact_Details":"(02) 981-8601 / (02) 981-8600","coordinates":[121.07228636741638,14.655070322592467]}
   ];
 
-  //$scope.filteredVenues =angular.copy($scope.venues);
-
+  $scope.filteredVenues = angular.copy($scope.venues);
 
   //Leaflet Specs
   $scope.center={
-       lat:14.65505475290859,
+       lat:14.65505475490859,
        lng:121.06891751289368,
-       zoom:16
+       zoom:17
   };
 
   $scope.layers={
        baselayers:{
-           osmMapnik:{
+           hyddaFull:{
+             name: 'Hydda Full',
+             url:'http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png',
+             maxZoom:19,
+             type:'xyz',
+             attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+           },
+            osmMapnik:{
              name: 'OSM Mapnik',
              url:'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
              maxZoom:19,
@@ -55,132 +63,68 @@ venuesApp.controller('MainCtrl',['$scope','$http','$filter','leafletData' ,funct
            }
        },
          overlays:{
-
          }
   };
 
 
-$scope.geojson = {};
-
-$scope.changedValue = function() {
-   //console.log($scope.filteredVenues);
-}
-
-$scope.$watch('filteredVenues', function (newvalue,oldvalue) { 
-
-
-console.log(($scope.filteredVenues))}
+$scope.redMarker ={
+       icon: 'circle',
+       markerColor: 'red',
+       prefix:'fa',
+        type: 'awesomeMarker',
+     };
 
 
+  var i = 0;
+  $scope.markers={};
+  $scope.iniMarkers={};
 
-,true);
+  angular.forEach($scope.venues, function(value) {
+    $scope.iniMarkers[i]={
+                  lat: value.coordinates[1],
+                  lng: value.coordinates[0],
+                  message: '<p><b>'+value.Name+'</b></p><p>'+value.Bldg+'</p><p>Capacity: '+value.Capacity+'</p><p>Available Hours:'+value.Available_Hours+'</p>',
+                  icon: $scope.redMarker
+                };
+    i++;
+
+  });
+  $scope.markers=$scope.iniMarkers;
 
 
+$scope.$watch('filteredVenues', function () { 
 
-// $scope.dataCount = 4;
+  var i = 0;
 
-// $scope.$watch('filteredVenues.length', function(newNames, oldNames) {
-//   $scope.dataCount = newNames.length;
-//   console.log($scope.dataCount);
-// });
-
-
-// $scope.events={
-//        map: {
-//              enable: ['zoomstart', 'drag', 'click', 'mousemove'],
-//              logic: 'emit'
-//             },
-//             markers: {
-//            enable: ['drag','click']
-//            //logic: 'emit'
-//          }
-//      };
-
+  $scope.qMarkers={};
   
 
+  angular.forEach($scope.filteredVenues, function(value) {
+    $scope.qMarkers[i]={
+                  lat: value.coordinates[1],
+                  lng: value.coordinates[0],
+                  message: '<p><b>'+value.Name+'</b></p><p>'+value.Bldg+'</p><p>Capacity: '+value.Capacity+'</p><p>Available Hours:'+value.Available_Hours+'</p>',
+                  icon: $scope.redMarker
+                };
+    i++;
+
+  });
+
+  i=0;
+   $scope.markers={};
+
+   $scope.markers = $scope.qMarkers;
+
+   if(($scope.filteredVenues).length===0){
+      $scope.markers=$scope.iniMarkers;
+
+   }
+
+         console.log($scope);
+
+},true);
 
 
-// 	$scope.search = {
-// 	  'Name': '',
-// 	  'Bldg': ''
-// 	};
-//     // Declare empty geojson object
-// $scope.geojson = {};
-//   	angular.extend($scope,{
-//   		center:{
-//   			lat:14.65505475290859,
-//   			lng:121.06891751289368,
-//   			zoom:16
-//   		},
-//   		layers:{
-// 			baselayers:{
-//   				osmMapnik:{
-//   					name: 'OSM Mapnik',
-//   					url:'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-//   					maxZoom:19,
-//   					type:'xyz',
-//   					attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-//   				}
-// 			},
-//   			overlays:{
-
-//   			}
-//   		},
-//   		events:{
-//   			map: {
-// 	            enable: ['zoomstart', 'drag', 'click', 'mousemove'],
-// 	            logic: 'emit'
-//             },
-//             markers: {
-// 	          enable: ['drag','click']
-// 	          //logic: 'emit'
-// 	        }
-//   		}
-//   	});
-
-// 	$http.get("json/venues.geojson").success(function(data,status){
-
-// 		$scope.data=data;
-// 		$scope.geojson.data=data;
-
-// 	  	var redMarker = L.AwesomeMarkers.icon({
-// 		    icon: 'heart',
-// 		    markerColor: 'red',
-// 		    prefix:'fa'
-// 		  });
-
-// 		function pointToLayer(feature,latlng){
-// 			return L.marker(latlng,{icon: redMarker});
-// 		}
-
-// 		function onEachFeature(feature, layer) {
-// 	        layer.bindPopup("<b>Name:</b> " + feature.properties.Name +
-// 	            "<br><b>Building:" + feature.properties.Bldg + "");
-// 	    }
-
-// 		//$scope.venue_directory=data.features;
-
-// 		angular.extend($scope,{
-// 	  		geojson:{
-// 	  			data:$scope.geojson.data,
-// 	  			onEachFeature: onEachFeature,
-// 	  			pointToLayer:pointToLayer
-// 	  		}
-// 	  	});
-
-//   	});
-  // // Start watching the search model
-  //       $scope.$watch('search', function (newVal, oldVal) {
-  //           // Watch gets fired on scope initialization and when empty so differentiate:
-  //           if (newVal !== oldVal && newVal !== '') {
-  //               // Has searchvalue, apply sourcedata, propertyname and searchstring to filter
-  //               // and assign return value of filter to geojson 
-  //               $scope.geojson.data = $filter('filter')($scope.data, 'NAME', newVal);
-  //           } else {
-  //               // Search has been initialized or emptied, assign sourcedata to geojsonobject
-  //               $scope.geojson.data = $scope.data;
-  //           }
-  //       });
   }]);
 
 

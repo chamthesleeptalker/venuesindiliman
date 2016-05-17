@@ -1,93 +1,55 @@
-<leaflet lf-center="center" width="100%" height="480px" layers="layers"></leaflet>
-
-
-<!-- <input ng-model="search.Name" />
-<select multiple>
-    <option ng-repeat="feature in geojson.data.features">
-        {{feature.properties.Name}}
-    </option>
-</select>
-<input ng-model="search.Bldg" />
-<select multiple>
-    <option ng-repeat="feature in geojson.data.features | uniq:'properties.Bldg'">
-        {{feature.properties.Bldg}}
-    </option>
-</select>
-
-<table ng-cloak class='table'>
-   <thead>
-      <tr class="foot">
-         <th><a href="">Name</a>
-         </th>
-         <th><a href="">Building</a>
-         </th>
-         <th><a href="">Capacity</a>
-         </th>
-      </tr>
-   </thead>
-   <tbody>
-      <tr ng-repeat="venue in geojson.data.features | filter:search.Name">
-         <td class='country'>{{venue.properties.Name}}</td>
-         <td>{{venue.properties.Bldg}}</td>
-         <td>{{venue.properties.Capacity}}</td>
-      </tr>
-   </tbody>
-</table> -->
-<br>
-
   <div class="alert alert-info">
     <p>Sort Type: {{ sortType }}</p>
     <p>Sort Reverse: {{ sortReverse }}</p>
     <p>Search Query: {{ searchVenue }}</p>
     <p>Results: {{ filteredVenues }}</p>
   </div>
-  
 
-  <form>
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-
-        <input type="text" class="form-control" placeholder="Search Venues" ng-model="searchVenue">
-
-      </div>      
-    </div>
-  </form>
-
-<!--     <label>Venue</label>
-    <select name="show-filter" ng-model="searchVenue" placeholder="Venue" 
-    ng-options="venue as venue.Name for venue in venues | unique:'Name'">
-  </select> -->
+  <h1>Venues in UP Diliman</h1>
+  <br>
 
   <label>Building</label>
     <select id="bldg" name="show-filter" ng-model="searchVenue.Bldg" placeholder="Building" 
     ng-options="venue.Bldg as venue.Bldg for venue in venues | unique:'Bldg'"
-    ng-change="changedValue()">
-  </select>{{ searchVenue.Bldg }}
+    >
+    <option value="">-- choose Building --</option>
+  </select>
 
   <label>Capacity</label>
     <select id="cap" name="show-filter" ng-model="searchVenue.Capacity" placeholder="Capacity" 
     ng-options="venue.Capacity as venue.Capacity for venue in venues | unique:'Capacity'"
-    ng-change="changedValue()">
-  </select>{{ searchVenue.Capacity }}
+    >
+    <option value="">-- choose Capacity --</option>
+  </select>
 
   <label>Lights</label>
     <select id="lights" name="show-filter" ng-model="searchVenue.Lights" placeholder="Lights" 
     ng-options="venue.Lights as venue.Lights for venue in venues | unique:'Lights'"
-    ng-change="changedValue()">
-  </select>{{ searchVenue.Lights }}
+    >
+    <option value="">-- Lights? --</option>
+  </select>
 
   <label>LCD</label>
     <select id="lcd" name="show-filter" ng-model="searchVenue.LCD" placeholder="LCD" 
     ng-options="venue.LCD as venue.LCD for venue in venues | unique:'LCD'"
-    ng-change="changedValue()">
-  </select>{{ searchVenue.LCD }}
+    >
+    <option value="">-- LCD? --</option>
+  </select>
 
     <label>Sounds</label>
     <select id="sounds" name="show-filter" ng-model="searchVenue.Sounds" placeholder="Sounds" 
     ng-options="venue.Sounds as venue.Sounds for venue in venues | unique:'Sounds'"
-    ng-change="changedValue()">
-  </select>{{ searchVenue.Sounds }}
+    >
+    <option value="">-- Sounds? --</option>
+  </select>
+  <button ng-click="searchVenue={}">
+  Reset Search
+</button>
+<br>
+<br>
+
+<leaflet lf-center="center" width="100%" height="480px" layers="layers" markers="markers"></leaflet>
+<br>
 <br>
   <table class="table table-bordered table-striped">
     
@@ -173,9 +135,7 @@
     </thead>
     
     <tbody>
-       
-       <!-- <tr ng-repeat="venue in venues | orderBy:sortType:sortReverse | filter : searchVenue"> -->
-       <tr ng-repeat="venue in ($parent.filteredVenues = (venues | filter: searchVenue :true)) ">
+       <tr ng-repeat="venue in ($parent.filteredVenues = (venues | filter: searchVenue)) | orderBy:sortType:sortReverse">
         <td>{{ venue.ID }}</td>
         <td>{{ venue.Name }}</td>
         <td>{{ venue.Bldg }}</td>
@@ -189,9 +149,6 @@
         <td>{{ venue.Rates_Out }}</td>
         <td>{{ venue.Rates_Other }}</td>
       </tr>
-<!--       <tr ng-hide="venues.length">No Results!</tr> -->
-
-      
     </tbody>
 
     
