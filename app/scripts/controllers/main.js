@@ -9,11 +9,21 @@
  */
 var venuesApp = angular.module('venuesindilimanApp');
 //controller
-venuesApp.controller('MainCtrl',['$scope' ,function ($scope) {
+venuesApp.controller('MainCtrl',['$scope',"leafletBoundsHelpers" ,function ($scope, leafletBoundsHelpers) {
 
   $scope.sortType     = 'Name'; // set the default sort type
   $scope.sortReverse  = false;  // set the default sort order
-  $scope.searchVenue   = "";
+  $scope.lcdCheckbox ={ yn:""};
+  $scope.lightsCheckbox={ yn:""};
+  $scope.soundsCheckbox={ yn:""};
+  $scope.capacityInput={ val:0};
+  $scope.searchVenue   = {query:{
+    Bldg:"",
+    Capacity:$scope.capacityInput.val,
+    Lights:$scope.lightsCheckbox.yn,
+    LCD:$scope.lcdCheckbox.yn,
+    Sounds:$scope.soundsCheckbox.yn
+  }};
 
 
 
@@ -36,7 +46,7 @@ venuesApp.controller('MainCtrl',['$scope' ,function ($scope) {
   {"ID":15,"Name":"Sunken Garden","Bldg":"Open Area","Capacity":10000,"Available_Hours":"Upon Request","Lights":"No","Lights_In":0,"Lights_Out":0,"Lights_Other":0,"Sounds":"No","Sounds_In":0,"Sounds_Out":0,"Sounds_Other":0,"LCD":"No","LCD_In":0,"LCD_Out":0,"LCD_Other":0,"Rates_In":"1573/hr","Rates_Out":"1573/hr","Rates_Other":"6232/hr","Contact_Details":"(02) 981-8601 / (02) 981-8600","coordinates":[121.07228636741638,14.655070322592467]}
   ];
 
-  $scope.filteredVenues = angular.copy($scope.venues);
+  $scope.filteredVenues = {results:angular.copy($scope.venues)};
 
   //Leaflet Specs
   $scope.center={
@@ -66,7 +76,51 @@ venuesApp.controller('MainCtrl',['$scope' ,function ($scope) {
          }
   };
 
+  var bounds = leafletBoundsHelpers.createBoundsFromArray([
+                [ 14.6497350461567, 121.060945987701 ],
+                [ 14.6596996595209, 121.076095104218 ]
+            ]);
 
+  $scope.bounds={
+    bounds: bounds,
+    center:{}
+  };
+
+
+//Checkbox functions
+$scope.lightsCbChange=function(){
+  $scope.searchVenue.query.Lights = $scope.lightsCheckbox.yn;
+};
+
+$scope.lcdCbChange=function(){
+  $scope.searchVenue.query.LCD = $scope.lcdCheckbox.yn;
+};
+
+$scope.soundsCbChange=function(){
+  $scope.searchVenue.query.Sounds = $scope.soundsCheckbox.yn;
+};
+
+$scope.capacityInputChange=function(){
+  $scope.searchVenue.query.Capacity = $scope.capacityInput.val;
+};
+
+//Reset Function
+$scope.resetSearch=function(){
+  $scope.searchVenue  = {query:{
+    Bldg:"",
+    Capacity:0,
+    Lights:"",
+    LCD:"",
+    Sounds:""
+  }};
+
+  $scope.capacityInput.val = 0;
+  $scope.lightsCheckbox.yn = "";
+  $scope.lcdCheckbox.yn = "";
+  $scope.soundsCheckbox.yn = "";
+};
+
+//MARKERS
 $scope.redMarker ={
        icon: 'circle',
        markerColor: 'red',
@@ -91,15 +145,24 @@ $scope.redMarker ={
   });
   $scope.markers=$scope.iniMarkers;
 
+  $scope.noQueryResults= function(queryresults){
+  if(queryresults.length === 0){
+    setTimeout(function(){$scope.resetSearch();},600);
+    return true;
+  }else{
+    return false;
+    }
+  };
 
-$scope.$watch('filteredVenues', function () { 
+
+$scope.$watch('filteredVenues.results', function () { 
 
   var i = 0;
 
   $scope.qMarkers={};
   
 
-  angular.forEach($scope.filteredVenues, function(value) {
+  angular.forEach($scope.filteredVenues.results, function(value) {
     $scope.qMarkers[i]={
                   lat: value.coordinates[1],
                   lng: value.coordinates[0],
@@ -115,17 +178,17 @@ $scope.$watch('filteredVenues', function () {
 
    $scope.markers = $scope.qMarkers;
 
-   if(($scope.filteredVenues).length===0){
-      $scope.markers=$scope.iniMarkers;
-
+   if(($scope.filteredVenues.results).length===0){
+      //$scope.markers=$scope.iniMarkers;
    }
-
-         //console.log($scope);
 
 },true);
 
 
   }]);
+
+
+
 
 
 
