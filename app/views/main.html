@@ -71,7 +71,7 @@
   </div>
 </div>
 
-<leaflet lf-center="center" width="100%" height="480px" layers="layers" markers="markers" bounds="bounds"></leaflet>
+<leaflet lf-center="center" width="100%" height="480px" layers="layers" markers="markers" maxbounds="maxbounds.maxbounds"></leaflet>
 <br>
 <br>
   <table class="table table-bordered table-striped">
@@ -158,7 +158,7 @@
     </thead>
     
     <tbody>
-       <tr ng-repeat="venue in ( filteredVenues.results = (venues | filter: searchVenue.query)) | orderBy:sortType:sortReverse">
+       <tr ng-repeat="venue in ( filteredVenues.results = (venues | filter: searchVenue.query | capacityFilter:capacityInput.val )) |orderBy:sortType:sortReverse" >
         <td>{{ venue.ID }}</td>
         <td>{{ venue.Name }}</td>
         <td>{{ venue.Bldg }}</td>

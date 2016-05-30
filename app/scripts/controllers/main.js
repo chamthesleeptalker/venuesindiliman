@@ -9,7 +9,7 @@
  */
 var venuesApp = angular.module('venuesindilimanApp');
 //controller
-venuesApp.controller('MainCtrl',['$scope',"leafletBoundsHelpers" ,function ($scope, leafletBoundsHelpers) {
+venuesApp.controller('MainCtrl',['$scope','leafletBoundsHelpers' ,function ($scope, leafletBoundsHelpers) {
 
   $scope.sortType     = 'Name'; // set the default sort type
   $scope.sortReverse  = false;  // set the default sort order
@@ -24,6 +24,7 @@ venuesApp.controller('MainCtrl',['$scope',"leafletBoundsHelpers" ,function ($sco
     LCD:$scope.lcdCheckbox.yn,
     Sounds:$scope.soundsCheckbox.yn
   }};
+  $scope.capFilteredResults={filteredResults:[]};
 
 
 
@@ -76,14 +77,19 @@ venuesApp.controller('MainCtrl',['$scope',"leafletBoundsHelpers" ,function ($sco
          }
   };
 
-  var bounds = leafletBoundsHelpers.createBoundsFromArray([
-                [ 14.6497350461567, 121.060945987701 ],
-                [ 14.6596996595209, 121.076095104218 ]
-            ]);
+  var venueBounds = {
+    northEast:{
+      lat: 14.6596996595209,
+      lng: 121.076095104218
+    },
+    southWest:{
+      lat: 14.6497350461567,
+      lng: 121.060945987701 
+    }
+  };
 
-  $scope.bounds={
-    bounds: bounds,
-    center:{}
+  $scope.maxbounds={
+    maxbounds: venueBounds
   };
 
 
@@ -101,7 +107,7 @@ $scope.soundsCbChange=function(){
 };
 
 $scope.capacityInputChange=function(){
-  $scope.searchVenue.query.Capacity = $scope.capacityInput.val;
+ // $scope.searchVenue.query.Capacity = $scope.capacityInput.val;
 };
 
 //Reset Function
